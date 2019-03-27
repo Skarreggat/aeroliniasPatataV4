@@ -12,7 +12,7 @@ public class MenuCompanyia {
 
     private JFrame frame;
 
-    private JButton[] menuButtons = new JButton[5];
+    private JButton[] menuButtons = new JButton[7];
 
     private final int AMPLADA = 800;
     private final int ALCADA = 600;
