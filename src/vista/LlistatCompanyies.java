@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -9,6 +10,7 @@ import javax.swing.JTable;
  * @author root
  */
 public class LlistatCompanyies {
+
     private JFrame frame;
     private final int AMPLADA = 600;
     private final int ALCADA = 200;
@@ -32,7 +34,18 @@ public class LlistatCompanyies {
        
      */
     public LlistatCompanyies() {
-        
+        frame = new JFrame("Llistat de companyies");
+        frame.setLayout(new GridLayout(0, 1)); //Format de taula d'una columna
+        taulaCompanyies = new JTable();
+        bSortir = new JButton("Sortir");
+        frame.add(bSortir);
+        frame.add(taulaCompanyies);
+        frame.setResizable(false);
+        //Li assignem mides a la finestra. Aquestes seran les mides inicials.
+        frame.setSize(AMPLADA, ALCADA);
+        //Tanquem la finestra i sortim de l'aplicació al seleccionar x 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     public JFrame getFrame() {
