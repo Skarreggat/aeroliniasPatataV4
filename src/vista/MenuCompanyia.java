@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
  * @author root
  */
 public class MenuCompanyia {
+
     private JFrame frame;
 
     private JButton[] menuButtons = new JButton[5];
@@ -34,9 +36,28 @@ public class MenuCompanyia {
       - Heu de fer visible el frame amb l'amplada i alçada que proposen els atributs amplada i alcada
       - Heu de fer que la finestra es tanqui quan l'usuari ho fa amb el control "X" de la finestra
         
-    */
+     */
     public MenuCompanyia() {
+        /*Construim la finestra on mostrarem la taula d'alumnes*/
+        frame = new JFrame("Menú Companyia");
+        frame.setLayout(new GridLayout(0, 1)); //Format de taula d'una columna
+        menuButtons[0] = new JButton("0. Sortir");
+        menuButtons[1] = new JButton("1. Alta");
+        menuButtons[2] = new JButton("2. Seleccionar");
+        menuButtons[3] = new JButton("3. Modificar");
+        menuButtons[4] = new JButton("4. Llistar companyies");
+        menuButtons[5] = new JButton("5. Carregar companyia");
+        menuButtons[6] = new JButton("6. Desar companyia");
+        for (int i = 0; i < menuButtons.length; i++) {
+            frame.add(menuButtons[i]);
+        }
+        frame.setResizable(false);
+        //Li assignem mides a la finestra. Aquestes seran les mides inicials.
+        frame.setSize(AMPLADA, ALCADA);
 
+        //Tanquem la finestra i sortim de l'aplicació al seleccionar x
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     public JFrame getFrame() {

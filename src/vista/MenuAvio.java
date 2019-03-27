@@ -44,8 +44,10 @@ public class MenuAvio {
         for(int i = 0; i <= menuButtons.length; i++){
             frame.add(menuButtons[i]);
         }
+        frame.setResizable(false);
         frame.setSize(AMPLADA, ALCADA);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     public JFrame getFrame() {
