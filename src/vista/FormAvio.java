@@ -1,10 +1,12 @@
 package vista;
 
 import java.awt.GridLayout;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -45,7 +47,30 @@ public class FormAvio {
         
      */
     public FormAvio() {
-        
+        frame = new JFrame("Formulari Avió");
+        frame.setLayout(new GridLayout(0, 1));
+        lCodi=new JLabel("Codi");
+        lFabricant=new JLabel("Fabricant");
+        lModel=new JLabel("Model");
+        lCapacitat=new JLabel("Capacitat");
+        tCodi = new JTextField(20);
+        tFabricant = new JTextField(20);
+        tModel = new JTextField(20);
+        tCapacitat = new JTextField(20);
+        frame.add(lCodi);
+        frame.add(lFabricant);
+        frame.add(lModel);
+        frame.add(lCapacitat);
+        frame.add(tCodi);
+        frame.add(tFabricant);
+        frame.add(tModel);
+        frame.add(tCapacitat);
+        frame.add(bSortir);
+        frame.add(bDesar);
+        frame.setResizable(false);
+        frame.setSize(AMPLADA, ALCADA);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     /*
@@ -56,7 +81,12 @@ public class FormAvio {
      - Mostrar els valors passats per paràmetre en els camps de text pertinents del formulari.
      */
     public FormAvio(String codi, String fabricant, String model, int capacitat) {
-
+        this();
+        tCodi.setText(codi);
+        tModel.setText(model);
+        tCapacitat.setText(String.valueOf(capacitat));
+        tFabricant.setText(fabricant);
+        
     }
 
     public JFrame getFrame() {
