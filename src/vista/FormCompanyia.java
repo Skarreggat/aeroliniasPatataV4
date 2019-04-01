@@ -50,17 +50,16 @@ public class FormCompanyia {
         tCodi = new JTextField(20);
         tNom = new JTextField(20);
         lNom = new JLabel("Nom");
-        tNom.setEnabled(false);
         tCodi.setEnabled(false);
         //Inicialitzem els botons
         bDesar = new JButton("Desar");
         bSortir = new JButton("Sortir");
         frame.add(lCodi);
+        frame.add(tCodi);
         frame.add(lNom);
+        frame.add(tNom);
         frame.add(bDesar);
         frame.add(bSortir);
-        frame.add(tNom);
-        frame.add(tCodi);
         frame.setResizable(false);
         frame.setSize(AMPLADA, ALCADA);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
