@@ -2,10 +2,15 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import model.Avio;
+import principal.Component;
+import principal.GestioVolsExcepcio;
 import vista.FormAvio;
 import vista.LlistatAvions;
 import vista.MenuAvio;
@@ -76,7 +81,18 @@ public class ControladorAvio implements ActionListener {
 	 * Retorn: avió seleccionat de la companyia actual.
 	 */
 	private Avio seleccionarAvio() {
+		// Carregar avions desde la companyia actual i convertir a array
+		List<Avio> llistaAvions = new ArrayList<Avio>();
+		for (Component c : ControladorPrincipal.getCompanyiaActual().getComponents()) {
+			if (c instanceof Avio) {
+				llistaAvions.add((Avio) c);
+			}
+		}
 
+		Avio[] arrayAvions = (Avio[]) llistaAvions.toArray();
+
+		return arrayAvions[JOptionPane.showOptionDialog(null, "Seleccionar avió", "Selecciona un avió",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, arrayAvions, -1)];
 	}
 
 	/*
@@ -88,7 +104,21 @@ public class ControladorAvio implements ActionListener {
 	 * en cas contrari.
 	 */
 	private Boolean validarAvio() {
-
+		// Validació camps i nullchecks
+		if (formAvio.getCodi() != null && formAvio.gettFabricant() != null && formAvio.gettModel() != null
+				&& formAvio.gettCapacitat() != null) {
+			if (formAvio.getCodi() != null && formAvio.gettFabricant() != null && formAvio.gettModel() != null
+					&& formAvio.gettCapacitat() != null) {
+				if ("".equals(formAvio.getCodi().getText()) && "".equals(formAvio.gettFabricant().getText())
+						&& "".equals(formAvio.gettFabricant().getText()) && "".equals(formAvio.gettModel().getText())) {
+					return true;
+				}
+			}
+		}
+		// Missatge si hi ha algún camp mal informat
+		JOptionPane.showMessageDialog(null, "ATENCIÓ!!!", "S'han d'introduir dades a tots els camps",
+				JOptionPane.WARNING_MESSAGE, null);
+		return false;
 	}
 
 	/*
@@ -138,7 +168,64 @@ public class ControladorAvio implements ActionListener {
 	 * Retorn: cap
 	 */
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(menuAvio.getMenuButtons()[0])) {
+			opcioSeleccionada = 0;
+			seleccionarOpcio(0);
+		} else if (e.getSource().equals(menuAvio.getMenuButtons()[1])) {
+			opcioSeleccionada = 1;
+			seleccionarOpcio(1);
+		} else if (e.getSource().equals(menuAvio.getMenuButtons()[2])) {
+			opcioSeleccionada = 2;
+			seleccionarOpcio(2);
+		} else if (e.getSource().equals(menuAvio.getMenuButtons()[3])) {
+			opcioSeleccionada = 3;
+			seleccionarOpcio(3);
+		}
 
+		if (formAvio != null) {
+			if (e.getSource().equals(formAvio.getDesar())) {
+				switch (opcioSeleccionada) {
+				case 1:
+					if (validarAvio()) {
+						try {
+							ControladorPrincipal.getCompanyiaActual()
+									.afegirAvio(new Avio(formAvio.getCodi().getText(),
+											formAvio.gettFabricant().getText(), formAvio.gettModel().getText(),
+											Integer.parseInt(formAvio.gettCapacitat().getText())));
+						} catch (NumberFormatException | GestioVolsExcepcio e1) {
+							JOptionPane.showMessageDialog(null, "EXCEPCIÓ!!!", e1.getMessage(),
+									JOptionPane.WARNING_MESSAGE, null);
+						}
+					}
+					break;
+				case 2:
+					if (validarAvio()) {
+						// Get avió seleccionat i el modifica
+						// TODO Qué passa si modifico el codi? NullpointerException
+						Avio a = (Avio) ControladorPrincipal.getCompanyiaActual().getComponents()
+								.get(ControladorPrincipal.getCompanyiaActual().seleccionarComponent(1,
+										formAvio.getCodi().getText()));
+						if (a != null) {
+							a.setCapacitat(Integer.parseInt(formAvio.gettCapacitat().getText()));
+							a.setModel(formAvio.gettModel().getText());
+							a.setFabricant(formAvio.gettFabricant().getText());
+						}
+					}
+					break;
+				}
+			} else if (e.getSource().equals(formAvio.getSortir())) {
+				opcioSeleccionada = 0;
+				formAvio.getFrame().setVisible(false);
+				menuAvio.getFrame().setVisible(true);
+			}
+		}
+
+		if (llistatAvions != null) {
+			if (e.getSource().equals(llistatAvions.getSortir())) {
+				llistatAvions.getFrame().setVisible(false);
+				menuAvio.getFrame().setVisible(true);
+			}
+		}
 	}
 
 	private void seleccionarOpcio(int opcio) {
