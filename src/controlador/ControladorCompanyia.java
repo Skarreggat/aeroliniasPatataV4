@@ -2,6 +2,8 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -77,7 +79,13 @@ public class ControladorCompanyia implements ActionListener {
 	 * Retorn: cap
      */
     private void seleccionarCompanyia() {
-        
+        List patata=new ArrayList();
+        for (int i = 0; i < ControladorPrincipal.getCompanyies().length; i++) {
+            patata.add(ControladorPrincipal.getCompanyies()[i].getCodi());
+        }
+        Object[] patatas=patata.toArray();
+    
+               int opcio = JOptionPane.showOptionDialog(null,"Selecciona una companyia","Seleccionar companyia",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null, patatas,null);
     }
 
     /*
