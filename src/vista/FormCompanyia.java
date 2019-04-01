@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JTextField;
  * @author root
  */
 public class FormCompanyia {
+
     private JFrame frame;
     private final int AMPLADA = 300;
     private final int ALCADA = 200;
@@ -42,18 +44,42 @@ public class FormCompanyia {
         
      */
     public FormCompanyia() {
-        
+        frame = new JFrame("Formulari Companyia");
+        frame.setLayout(new GridLayout(0, 1)); //Format de taula d'una columna
+        lCodi = new JLabel("Codi");
+        tCodi = new JTextField(20);
+        tNom = new JTextField(20);
+        lNom = new JLabel("Nom");
+        tNom.setEnabled(false);
+        tCodi.setEnabled(false);
+        //Inicialitzem els botons
+        bDesar = new JButton("Desar");
+        bSortir = new JButton("Sortir");
+        frame.add(lCodi);
+        frame.add(lNom);
+        frame.add(bDesar);
+        frame.add(bSortir);
+        frame.add(tNom);
+        frame.add(tCodi);
+        frame.setResizable(false);
+        frame.setSize(AMPLADA, ALCADA);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
     }
 
-     /*
+    /*
      CONSTRUCTOR
      Paràmetres: valors del codi de la companyia i el nom
      Accions:
      - Crear un formulari amb l'atra constructor d'aquesta classe FormCompanyia().
      - Mostrar els valors passats per paràmetre en els camps de text pertinents del formulari.
      */
-    public FormCompanyia(int codi, String adreca) {
-        
+    public FormCompanyia(int codi, String nom) {
+        this();
+        tCodi.setText(String.valueOf(codi));
+        tNom.setText(nom);
+
     }
 
     public JFrame getFrame() {
@@ -86,7 +112,7 @@ public class FormCompanyia {
 
     public void settNom(JTextField tNom) {
         this.tNom = tNom;
-    }   
+    }
 
     public JButton getDesar() {
         return bDesar;
