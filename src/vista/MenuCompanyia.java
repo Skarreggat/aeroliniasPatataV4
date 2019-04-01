@@ -55,7 +55,7 @@ public class MenuCompanyia {
         //Li assignem mides a la finestra. Aquestes seran les mides inicials.
         frame.setSize(AMPLADA, ALCADA);
 
-        //Tanquem la finestra i sortim de l'aplicació al seleccionar x
+        //Tanquem la finestra i sortim de l'aplicació al seleccionar x 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
