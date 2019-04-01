@@ -14,49 +14,53 @@ import vista.MenuCompanyia;
  * @author root
  */
 public class ControladorCompanyia implements ActionListener {
+    
+    private MenuCompanyia menuCompanyia;
+    private FormCompanyia formCompanyia = null;
+    private LlistatCompanyies llistatCompanyies = null;
+    private int opcioSeleccionada = 0;
 
-	private MenuCompanyia menuCompanyia;
-	private FormCompanyia formCompanyia = null;
-	private LlistatCompanyies llistatCompanyies = null;
-	private int opcioSeleccionada = 0;
-
-	/*
+    /*
 	 * CONSTRUCTOR Paràmetres:cap Accions: - S'inicialitza l'atribut menuCompanyia
 	 * (això mostrarà el menú de companyia) - Es crida a afegirListenersMenu
-	 */
-	public ControladorCompanyia() {
-		menuCompanyia = new MenuCompanyia();
-                afegirListenersMenu();
-	}
+     */
+    public ControladorCompanyia() {
+        menuCompanyia = new MenuCompanyia();
+        afegirListenersMenu();
+    }
 
-	/*
+    /*
 	 * Paràmetres: cap Acció: A cada botó de la vista del menú companyia se li
 	 * afegeix el listener tenint en compte què el mètode actionPerformed, està
 	 * implementat en aquesta classe. Retorn: cap
-	 */
-	private void afegirListenersMenu() {
+     */
+    private void afegirListenersMenu() {
+        for (int i = 0; i < menuCompanyia.getMenuButtons().length; i++) {
+            menuCompanyia.getMenuButtons()[i].addActionListener(this);
+        }
+        
+    }
 
-	}
-
-	/*
+    /*
 	 * Paràmetres: cap Acció: A cada botó de la vista del formulari de la companyia
 	 * se li afegeix el listener tenint en compte què el mètode actionPerformed,
 	 * està implementat en aquesta classe. Retorn: cap
-	 */
-	private void afegirListenersForm() {
+     */
+    private void afegirListenersForm() {
+        formCompanyia.getDesar().addActionListener(this);
+        formCompanyia.getSortir().addActionListener(this);
+    }
 
-	}
-
-	/*
+    /*
 	 * Paràmetres: cap Acció: Al botó sortir de la vista del llistat de companyies
 	 * se li afegeix el listener tenint en compte què el mètode actionPerformed,
 	 * està implementat en aquesta classe. Retorn: cap
-	 */
-	private void afegirListenersLlistat() {
+     */
+    private void afegirListenersLlistat() {
+        llistatCompanyies.getSortir().addActionListener(this);
+    }
 
-	}
-
-	/*
+    /*
 	 * Paràmetres: cap
 	 * 
 	 * Acció: - S'ha de mostrar a l'usuari un JPane perquè l'usuari pugui
@@ -71,24 +75,24 @@ public class ControladorCompanyia implements ActionListener {
 	 * JPane que heu d'utilitzar, retornarà -1.
 	 * 
 	 * Retorn: cap
-	 */
-	private void seleccionarCompanyia() {
+     */
+    private void seleccionarCompanyia() {
+        
+    }
 
-	}
-
-	/*
+    /*
 	 * Paràmetres: cap Acció: - Comprova que l'usuari hagi introduït algun valor en
 	 * el camp de text del nom del formulari de la companyia. - Si el camp no està
 	 * buit, retornarà verdader. - Si el camp està buit mostrarà a l'usuari una
 	 * JPane amb el missatge "S'ha d'introduir el nom", el títol "ATENCIÓ!!!" i la
 	 * icona d'avís (warning). Retorn: Verdader si s'ha introduït el nom. Fals en
 	 * cas contrari.
-	 */
-	private Boolean validarCompanyia() {
+     */
+    private Boolean validarCompanyia() {
+        
+    }
 
-	}
-
-	/*
+    /*
 	 * Paràmetres: ActionEvent
 	 * 
 	 * Nota: Com ControladorCompanyia té els listeners del menú companyia, del
@@ -137,64 +141,64 @@ public class ControladorCompanyia implements ActionListener {
 	 * llistat, llavors: Heu de tornar al menú companyia i amagar el llistat.
 	 * 
 	 * Retorn: cap
-	 */
-	public void actionPerformed(ActionEvent e) {
-
-	}
-
-	private void seleccionarOpcio(int opcio) {
-		switch (opcio) {
-
-		case 0: // sortir
-			ControladorPrincipal.getMenuPrincipal().getFrame().setVisible(true);
-			break;
-
-		case 1: // alta
-			if (ControladorPrincipal.getPosicioCompanyies() < ControladorPrincipal.getMAXCOMPANYIES()) {
-				formCompanyia = new FormCompanyia();
-				afegirListenersForm();
-			} else {
-				menuCompanyia.getFrame().setVisible(true);
-				JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Màxim nombre de companyies assolides.", "Avís",
-						JOptionPane.PLAIN_MESSAGE);
-			}
-			break;
-
-		case 2: // seleccionar
-			menuCompanyia.getFrame().setVisible(true);
-			if (ControladorPrincipal.getCompanyies()[0] != null) {
-				seleccionarCompanyia();
-			} else {
-				JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
-						"Avís", JOptionPane.PLAIN_MESSAGE);
-			}
-			break;
-
-		case 3: // modificar
-			if (ControladorPrincipal.getCompanyies()[0] != null) {
-				seleccionarCompanyia();
-				formCompanyia = new FormCompanyia(ControladorPrincipal.getCompanyiaActual().getCodi(),
-						ControladorPrincipal.getCompanyiaActual().getNom());
-				afegirListenersForm();
-			} else {
-				menuCompanyia.getFrame().setVisible(true);
-				JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
-						"Avís", JOptionPane.PLAIN_MESSAGE);
-			}
-			break;
-
-		case 4: // llistar
-			if (ControladorPrincipal.getCompanyies()[0] != null) {
-				llistatCompanyies = new LlistatCompanyies();
-				afegirListenersLlistat();
-			} else {
-				menuCompanyia.getFrame().setVisible(true);
-				JOptionPane.showMessageDialog(menuCCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
-						"Avís", JOptionPane.PLAIN_MESSAGE);
-			}
-			break;
-		case 5: // Desar contingut
-			/*
+     */
+    public void actionPerformed(ActionEvent e) {
+        
+    }
+    
+    private void seleccionarOpcio(int opcio) {
+        switch (opcio) {
+            
+            case 0: // sortir
+                ControladorPrincipal.getMenuPrincipal().getFrame().setVisible(true);
+                break;
+            
+            case 1: // alta
+                if (ControladorPrincipal.getPosicioCompanyies() < ControladorPrincipal.getMAXCOMPANYIES()) {
+                    formCompanyia = new FormCompanyia();
+                    afegirListenersForm();
+                } else {
+                    menuCompanyia.getFrame().setVisible(true);
+                    JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Màxim nombre de companyies assolides.", "Avís",
+                            JOptionPane.PLAIN_MESSAGE);
+                }
+                break;
+            
+            case 2: // seleccionar
+                menuCompanyia.getFrame().setVisible(true);
+                if (ControladorPrincipal.getCompanyies()[0] != null) {
+                    seleccionarCompanyia();
+                } else {
+                    JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
+                            "Avís", JOptionPane.PLAIN_MESSAGE);
+                }
+                break;
+            
+            case 3: // modificar
+                if (ControladorPrincipal.getCompanyies()[0] != null) {
+                    seleccionarCompanyia();
+                    formCompanyia = new FormCompanyia(ControladorPrincipal.getCompanyiaActual().getCodi(),
+                            ControladorPrincipal.getCompanyiaActual().getNom());
+                    afegirListenersForm();
+                } else {
+                    menuCompanyia.getFrame().setVisible(true);
+                    JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
+                            "Avís", JOptionPane.PLAIN_MESSAGE);
+                }
+                break;
+            
+            case 4: // llistar
+                if (ControladorPrincipal.getCompanyies()[0] != null) {
+                    llistatCompanyies = new LlistatCompanyies();
+                    afegirListenersLlistat();
+                } else {
+                    menuCompanyia.getFrame().setVisible(true);
+                    JOptionPane.showMessageDialog(menuCCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
+                            "Avís", JOptionPane.PLAIN_MESSAGE);
+                }
+                break;
+            case 5: // Desar contingut
+                /*
 			 * - Es mostra un diàleg (JOptionPane.showOptionDialog) amb un botó, que
 			 * representa al mètode de persistència del document, en el nostre cas XML o
 			 * JDBC. El títol de la finestra serà "Desar Contingut" i li demanarem a
@@ -210,11 +214,11 @@ public class ControladorCompanyia implements ActionListener {
 			 * NOTA: Recordeu que el contingut, instància d'un objecte del gestor de
 			 * persistència i tipus de persistències, els teniu en el controlador principal.
 			 * 
-			 */
-
-			break;
-		case 6: // Carregar contingut
-			/*
+                 */
+                
+                break;
+            case 6: // Carregar contingut
+                /*
 			 * - Es selecciona una companyia mitjançant el mètode seleccionarCompanyia
 			 * d'aquesta classe. - Si s'ha seleccionat la companyia, es mostra un JPane de
 			 * tipus showOptionDialog amb botons, on cadascun d'ells és un mètode de càrrega
@@ -233,9 +237,9 @@ public class ControladorCompanyia implements ActionListener {
 			 * 
 			 * NOTA: Recordeu que la instància d'un objecte del gestor de persistència, el
 			 * teniu en el controlador principal.
-			 */
-
-			break;
-		}
-	}
+                 */
+                
+                break;
+        }
+    }
 }
