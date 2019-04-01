@@ -26,6 +26,7 @@ public class ControladorCompanyia implements ActionListener {
 	 */
 	public ControladorCompanyia() {
 		menuCompanyia = new MenuCompanyia();
+                afegirListenersMenu();
 	}
 
 	/*
