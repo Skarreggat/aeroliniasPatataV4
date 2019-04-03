@@ -82,17 +82,23 @@ public class ControladorAvio implements ActionListener {
 	 */
 	private Avio seleccionarAvio() {
 		// Carregar avions desde la companyia actual i convertir a array
-		List<Avio> llistaAvions = new ArrayList<Avio>();
+		List<String> llistaAvions = new ArrayList<String>();
 		for (Component c : ControladorPrincipal.getCompanyiaActual().getComponents()) {
 			if (c instanceof Avio) {
-				llistaAvions.add((Avio) c);
+				llistaAvions.add(((Avio) c).getCodi());
 			}
 		}
 
-		Avio[] arrayAvions = (Avio[]) llistaAvions.toArray();
+		Object[] arrayAvions = llistaAvions.toArray();
 
-		return arrayAvions[JOptionPane.showOptionDialog(null, "Seleccionar avió", "Selecciona un avió",
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, arrayAvions, -1)];
+		int opcio = JOptionPane.showOptionDialog(null, "Selecciona un avió", "Seleccionar avió",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, arrayAvions, -1);
+
+		if (opcio != -1) {
+			return (Avio) ControladorPrincipal.getCompanyiaActual().getComponents().get(opcio);
+		} else {
+			return null;
+		}
 	}
 
 	/*
@@ -107,18 +113,16 @@ public class ControladorAvio implements ActionListener {
 		// Validació camps i nullchecks
 		if (formAvio.getCodi() != null && formAvio.gettFabricant() != null && formAvio.gettModel() != null
 				&& formAvio.gettCapacitat() != null) {
-			if (formAvio.getCodi() != null && formAvio.gettFabricant() != null && formAvio.gettModel() != null
-					&& formAvio.gettCapacitat() != null) {
-				if ("".equals(formAvio.getCodi().getText()) && "".equals(formAvio.gettFabricant().getText())
-						&& "".equals(formAvio.gettFabricant().getText()) && "".equals(formAvio.gettModel().getText())) {
-					return true;
-				}
+			if (!"".equals(formAvio.getCodi().getText()) && !"".equals(formAvio.gettFabricant().getText())
+					&& !"".equals(formAvio.gettFabricant().getText()) && !"".equals(formAvio.gettModel().getText())) {
+				return true;
 			}
 		}
 		// Missatge si hi ha algún camp mal informat
-		JOptionPane.showMessageDialog(null, "ATENCIÓ!!!", "S'han d'introduir dades a tots els camps",
+		JOptionPane.showMessageDialog(null, "S'han d'introduir dades a tots els camps", "ATENCIÓ!!!",
 				JOptionPane.WARNING_MESSAGE, null);
 		return false;
+
 	}
 
 	/*
@@ -242,7 +246,9 @@ public class ControladorAvio implements ActionListener {
 
 		case 2: // modificar
 			avio = seleccionarAvio();
-			formAvio = new FormAvio(avio.getCodi(), avio.getFabricant(), avio.getModel(), avio.getCapacitat());
+			if (avio != null) {
+				formAvio = new FormAvio(avio.getCodi(), avio.getFabricant(), avio.getModel(), avio.getCapacitat());
+			}
 			afegirListenersForm();
 			break;
 

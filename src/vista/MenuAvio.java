@@ -41,7 +41,7 @@ public class MenuAvio {
         menuButtons[1] = new JButton("1. Alta");
         menuButtons[2] = new JButton("2. Modificar");
         menuButtons[3] = new JButton("3. Llistar avions");
-        for(int i = 0; i <= menuButtons.length; i++){
+        for(int i = 0; i < menuButtons.length; i++){
             frame.add(menuButtons[i]);
         }
         frame.setResizable(false);

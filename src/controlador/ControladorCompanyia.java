@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-import model.Companyia;
 
+import model.Companyia;
 import vista.FormCompanyia;
 import vista.LlistatCompanyies;
 import vista.MenuCompanyia;
@@ -18,52 +18,52 @@ import vista.MenuCompanyia;
  */
 public class ControladorCompanyia implements ActionListener {
 
-    private MenuCompanyia menuCompanyia;
-    private FormCompanyia formCompanyia = null;
-    private LlistatCompanyies llistatCompanyies = null;
-    private int opcioSeleccionada = 0;
+	private MenuCompanyia menuCompanyia;
+	private FormCompanyia formCompanyia = null;
+	private LlistatCompanyies llistatCompanyies = null;
+	private int opcioSeleccionada = 0;
 
-    /*
+	/*
 	 * CONSTRUCTOR Paràmetres:cap Accions: - S'inicialitza l'atribut menuCompanyia
 	 * (això mostrarà el menú de companyia) - Es crida a afegirListenersMenu
-     */
-    public ControladorCompanyia() {
-        menuCompanyia = new MenuCompanyia();
-        afegirListenersMenu();
-    }
+	 */
+	public ControladorCompanyia() {
+		menuCompanyia = new MenuCompanyia();
+		afegirListenersMenu();
+	}
 
-    /*
+	/*
 	 * Paràmetres: cap Acció: A cada botó de la vista del menú companyia se li
 	 * afegeix el listener tenint en compte què el mètode actionPerformed, està
 	 * implementat en aquesta classe. Retorn: cap
-     */
-    private void afegirListenersMenu() {
-        for (int i = 0; i < menuCompanyia.getMenuButtons().length; i++) {
-            menuCompanyia.getMenuButtons()[i].addActionListener(this);
-        }
+	 */
+	private void afegirListenersMenu() {
+		for (int i = 0; i < menuCompanyia.getMenuButtons().length; i++) {
+			menuCompanyia.getMenuButtons()[i].addActionListener(this);
+		}
 
-    }
+	}
 
-    /*
+	/*
 	 * Paràmetres: cap Acció: A cada botó de la vista del formulari de la companyia
 	 * se li afegeix el listener tenint en compte què el mètode actionPerformed,
 	 * està implementat en aquesta classe. Retorn: cap
-     */
-    private void afegirListenersForm() {
-        formCompanyia.getDesar().addActionListener(this);
-        formCompanyia.getSortir().addActionListener(this);
-    }
+	 */
+	private void afegirListenersForm() {
+		formCompanyia.getDesar().addActionListener(this);
+		formCompanyia.getSortir().addActionListener(this);
+	}
 
-    /*
+	/*
 	 * Paràmetres: cap Acció: Al botó sortir de la vista del llistat de companyies
 	 * se li afegeix el listener tenint en compte què el mètode actionPerformed,
 	 * està implementat en aquesta classe. Retorn: cap
-     */
-    private void afegirListenersLlistat() {
-        llistatCompanyies.getSortir().addActionListener(this);
-    }
+	 */
+	private void afegirListenersLlistat() {
+		llistatCompanyies.getSortir().addActionListener(this);
+	}
 
-    /*
+	/*
 	 * Paràmetres: cap
 	 * 
 	 * Acció: - S'ha de mostrar a l'usuari un JPane perquè l'usuari pugui
@@ -78,37 +78,43 @@ public class ControladorCompanyia implements ActionListener {
 	 * JPane que heu d'utilitzar, retornarà -1.
 	 * 
 	 * Retorn: cap
-     */
-    private void seleccionarCompanyia() {
-        List patata = new ArrayList();
-        for (int i = 0; i < ControladorPrincipal.getCompanyies().length; i++) {
-            patata.add(ControladorPrincipal.getCompanyies()[i].getCodi());
-        }
-        Object[] patatas = patata.toArray();
+	 */
+	private void seleccionarCompanyia() {
+		List patata = new ArrayList();
+		for (int i = 0; i < ControladorPrincipal.getCompanyies().length; i++) {
+			if (ControladorPrincipal.getCompanyies()[i] != null) {
+				patata.add(ControladorPrincipal.getCompanyies()[i].getCodi());
+			}
+		}
+		Object[] patatas = patata.toArray();
 
-        int opcio = JOptionPane.showOptionDialog(null, "Selecciona una companyia", "Seleccionar companyia",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, patatas, null);
-    }
+		int opcio = JOptionPane.showOptionDialog(null, "Selecciona una companyia", "Seleccionar companyia",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, patatas, null);
 
-    /*
+		if (opcio != -1) {
+			ControladorPrincipal.setCompanyiaActual(ControladorPrincipal.getCompanyies()[opcio]);
+		}
+	}
+
+	/*
 	 * Paràmetres: cap Acció: - Comprova que l'usuari hagi introduït algun valor en
 	 * el camp de text del nom del formulari de la companyia. - Si el camp no està
 	 * buit, retornarà verdader. - Si el camp està buit mostrarà a l'usuari una
 	 * JPane amb el missatge "S'ha d'introduir el nom", el títol "ATENCIÓ!!!" i la
 	 * icona d'avís (warning). Retorn: Verdader si s'ha introduït el nom. Fals en
 	 * cas contrari.
-     */
-    private Boolean validarCompanyia() {
-        if (formCompanyia.gettNom() != null && "".equals(formCompanyia.gettNom().getText())) {
-            JOptionPane.showMessageDialog(null, "S'ha d'introduir el nom", "ATENCIÓ!!!", JOptionPane.WARNING_MESSAGE,
-                    null);
-            return false;
-        } else {
-            return true;
-        }
-    }
+	 */
+	private Boolean validarCompanyia() {
+		if (formCompanyia.gettNom() != null && "".equals(formCompanyia.gettNom().getText())) {
+			JOptionPane.showMessageDialog(null, "S'ha d'introduir el nom", "ATENCIÓ!!!", JOptionPane.WARNING_MESSAGE,
+					null);
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-    /*
+	/*
 	 * Paràmetres: ActionEvent
 	 * 
 	 * Nota: Com ControladorCompanyia té els listeners del menú companyia, del
@@ -157,128 +163,131 @@ public class ControladorCompanyia implements ActionListener {
 	 * llistat, llavors: Heu de tornar al menú companyia i amagar el llistat.
 	 * 
 	 * Retorn: cap
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(menuCompanyia.getMenuButtons()[0])) {
-            opcioSeleccionada = 0;
-            seleccionarOpcio(0);
-        } else if (e.getSource().equals(menuCompanyia.getMenuButtons()[1])) {
-            opcioSeleccionada = 1;
-            seleccionarOpcio(1);
-        } else if (e.getSource().equals(menuCompanyia.getMenuButtons()[2])) {
-            opcioSeleccionada = 2;
-            seleccionarOpcio(2);
-        } else if (e.getSource().equals(menuCompanyia.getMenuButtons()[3])) {
-            opcioSeleccionada = 3;
-            seleccionarOpcio(3);
-        } else if (e.getSource().equals(menuCompanyia.getMenuButtons()[4])) {
-            opcioSeleccionada = 4;
-            seleccionarOpcio(4);
-        } else if (e.getSource().equals(menuCompanyia.getMenuButtons()[5])) {
-            opcioSeleccionada = 5;
-            seleccionarOpcio(5);
-        } else if (e.getSource().equals(menuCompanyia.getMenuButtons()[6])) {
-            opcioSeleccionada = 6;
-            seleccionarOpcio(6);
-        }
-        if (formCompanyia != null) {
-            if (e.getSource().equals(formCompanyia.getDesar())) {
-                switch (opcioSeleccionada) {
-                    case 1:
-                        if (validarCompanyia()) {
-                            try {
-                                Companyia companyiaPatata = new Companyia(formCompanyia.gettNom().getText());
-                                ControladorPrincipal.getCompanyies()[ControladorPrincipal.getPosicioCompanyies()] = companyiaPatata;
-                                ControladorPrincipal.setPosicioCompanyies(ControladorPrincipal.getPosicioCompanyies()+1);
-                                formCompanyia.getCodi().setText(String.valueOf(companyiaPatata.getCodi()));
-                                ControladorPrincipal.setCompanyiaActual(companyiaPatata);
-                                opcioSeleccionada = 2;
-                            } catch (NumberFormatException e1) {
-                                JOptionPane.showMessageDialog(null, "EXCEPCIÓ!!!", e1.getMessage(),
-                                        JOptionPane.WARNING_MESSAGE, null);
-                            }
-                        }
-                        break;
-                    case 3:
-                        if (validarCompanyia()) {
-                            Companyia c = null;
-                            for(int i = 0; i <= ControladorPrincipal.getCompanyies().length; i++){
-                                if(ControladorPrincipal.getCompanyies()[i].getCodi() == Integer.parseInt(formCompanyia.getCodi().getText())){
-                                    c = (Companyia) ControladorPrincipal.getCompanyies()[i];
-                                }
-                            }
-                            if (c != null) {
-                                c.setNom(formCompanyia.gettNom().getText());
-                            }
-                        }
-                        break;
-                }
-            } else if (e.getSource().equals(formCompanyia.getSortir())) {
-                formCompanyia.getFrame().setVisible(false);
-                menuCompanyia.getFrame().setVisible(true);
-            }
-        }
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(menuCompanyia.getMenuButtons()[0])) {
+			opcioSeleccionada = 0;
+			seleccionarOpcio(0);
+		} else if (e.getSource().equals(menuCompanyia.getMenuButtons()[1])) {
+			opcioSeleccionada = 1;
+			seleccionarOpcio(1);
+		} else if (e.getSource().equals(menuCompanyia.getMenuButtons()[2])) {
+			opcioSeleccionada = 2;
+			seleccionarOpcio(2);
+		} else if (e.getSource().equals(menuCompanyia.getMenuButtons()[3])) {
+			opcioSeleccionada = 3;
+			seleccionarOpcio(3);
+		} else if (e.getSource().equals(menuCompanyia.getMenuButtons()[4])) {
+			opcioSeleccionada = 4;
+			seleccionarOpcio(4);
+		} else if (e.getSource().equals(menuCompanyia.getMenuButtons()[5])) {
+			opcioSeleccionada = 5;
+			seleccionarOpcio(5);
+		} else if (e.getSource().equals(menuCompanyia.getMenuButtons()[6])) {
+			opcioSeleccionada = 6;
+			seleccionarOpcio(6);
+		}
+		if (formCompanyia != null) {
+			if (e.getSource().equals(formCompanyia.getDesar())) {
+				switch (opcioSeleccionada) {
+				case 1:
+					if (validarCompanyia()) {
+						try {
+							Companyia companyiaPatata = new Companyia(formCompanyia.gettNom().getText());
+							ControladorPrincipal.getCompanyies()[ControladorPrincipal
+									.getPosicioCompanyies()] = companyiaPatata;
+							ControladorPrincipal.setPosicioCompanyies(ControladorPrincipal.getPosicioCompanyies() + 1);
+							formCompanyia.getCodi().setText(String.valueOf(companyiaPatata.getCodi()));
+							ControladorPrincipal.setCompanyiaActual(companyiaPatata);
+							opcioSeleccionada = 2;
+						} catch (NumberFormatException e1) {
+							JOptionPane.showMessageDialog(null, "EXCEPCIÓ!!!", e1.getMessage(),
+									JOptionPane.WARNING_MESSAGE, null);
+						}
+					}
+					break;
+				case 3:
+					if (validarCompanyia()) {
+						Companyia c = null;
+						for (int i = 0; i < ControladorPrincipal.getCompanyies().length
+								&& ControladorPrincipal.getCompanyies()[i] != null; i++) {
+							if (ControladorPrincipal.getCompanyies()[i].getCodi() == Integer
+									.parseInt(formCompanyia.getCodi().getText())) {
+								c = (Companyia) ControladorPrincipal.getCompanyies()[i];
+							}
+						}
+						if (c != null) {
+							c.setNom(formCompanyia.gettNom().getText());
+						}
+					}
+					break;
+				}
+			} else if (e.getSource().equals(formCompanyia.getSortir())) {
+				formCompanyia.getFrame().setVisible(false);
+				menuCompanyia.getFrame().setVisible(true);
+			}
+		}
 
-        if (llistatCompanyies != null) {
-            if (e.getSource().equals(llistatCompanyies.getSortir())) {
-                llistatCompanyies.getFrame().setVisible(false);
-                menuCompanyia.getFrame().setVisible(true);
-            }
-        }
-    }
+		if (llistatCompanyies != null) {
+			if (e.getSource().equals(llistatCompanyies.getSortir())) {
+				llistatCompanyies.getFrame().setVisible(false);
+				menuCompanyia.getFrame().setVisible(true);
+			}
+		}
+	}
 
-    private void seleccionarOpcio(int opcio) {
-        switch (opcio) {
-            case 0: // sortir
-                ControladorPrincipal.getMenuPrincipal().getFrame().setVisible(true);
-                break;
+	private void seleccionarOpcio(int opcio) {
+		switch (opcio) {
+		case 0: // sortir
+			ControladorPrincipal.getMenuPrincipal().getFrame().setVisible(true);
+			break;
 
-            case 1: // alta
-                if (ControladorPrincipal.getPosicioCompanyies() < ControladorPrincipal.getMAXCOMPANYIES()) {
-                    formCompanyia = new FormCompanyia();
-                    afegirListenersForm();
-                } else {
-                    menuCompanyia.getFrame().setVisible(true);
-                    JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Màxim nombre de companyies assolides.", "Avís",
-                            JOptionPane.PLAIN_MESSAGE);
-                }
-                break;
+		case 1: // alta
+			if (ControladorPrincipal.getPosicioCompanyies() < ControladorPrincipal.getMAXCOMPANYIES()) {
+				formCompanyia = new FormCompanyia();
+				afegirListenersForm();
+			} else {
+				menuCompanyia.getFrame().setVisible(true);
+				JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Màxim nombre de companyies assolides.", "Avís",
+						JOptionPane.PLAIN_MESSAGE);
+			}
+			break;
 
-            case 2: // seleccionar
-                menuCompanyia.getFrame().setVisible(true);
-                if (ControladorPrincipal.getCompanyies()[0] != null) {
-                    seleccionarCompanyia();
-                } else {
-                    JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
-                            "Avís", JOptionPane.PLAIN_MESSAGE);
-                }
-                break;
+		case 2: // seleccionar
+			menuCompanyia.getFrame().setVisible(true);
+			if (ControladorPrincipal.getCompanyies()[0] != null) {
+				seleccionarCompanyia();
+			} else {
+				JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
+						"Avís", JOptionPane.PLAIN_MESSAGE);
+			}
+			break;
 
-            case 3: // modificar
-                if (ControladorPrincipal.getCompanyies()[0] != null) {
-                    seleccionarCompanyia();
-                    formCompanyia = new FormCompanyia(ControladorPrincipal.getCompanyiaActual().getCodi(),
-                            ControladorPrincipal.getCompanyiaActual().getNom());
-                    afegirListenersForm();
-                } else {
-                    menuCompanyia.getFrame().setVisible(true);
-                    JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
-                            "Avís", JOptionPane.PLAIN_MESSAGE);
-                }
-                break;
+		case 3: // modificar
+			if (ControladorPrincipal.getCompanyies()[0] != null) {
+				seleccionarCompanyia();
+				formCompanyia = new FormCompanyia(ControladorPrincipal.getCompanyiaActual().getCodi(),
+						ControladorPrincipal.getCompanyiaActual().getNom());
+				afegirListenersForm();
+			} else {
+				menuCompanyia.getFrame().setVisible(true);
+				JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
+						"Avís", JOptionPane.PLAIN_MESSAGE);
+			}
+			break;
 
-            case 4: // llistar
-                if (ControladorPrincipal.getCompanyies()[0] != null) {
-                    llistatCompanyies = new LlistatCompanyies();
-                    afegirListenersLlistat();
-                } else {
-                    menuCompanyia.getFrame().setVisible(true);
-                    JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
-                            "Avís", JOptionPane.PLAIN_MESSAGE);
-                }
-                break;
-            case 5: // Desar contingut
-                /*
+		case 4: // llistar
+			if (ControladorPrincipal.getCompanyies()[0] != null) {
+				llistatCompanyies = new LlistatCompanyies();
+				afegirListenersLlistat();
+			} else {
+				menuCompanyia.getFrame().setVisible(true);
+				JOptionPane.showMessageDialog(menuCompanyia.getFrame(), "Abans s'ha de crear al menys una companyia",
+						"Avís", JOptionPane.PLAIN_MESSAGE);
+			}
+			break;
+		case 5: // Desar contingut
+			/*
 			 * - Es mostra un diàleg (JOptionPane.showOptionDialog) amb un botó, que
 			 * representa al mètode de persistència del document, en el nostre cas XML o
 			 * JDBC. El títol de la finestra serà "Desar Contingut" i li demanarem a
@@ -294,11 +303,11 @@ public class ControladorCompanyia implements ActionListener {
 			 * NOTA: Recordeu que el contingut, instància d'un objecte del gestor de
 			 * persistència i tipus de persistències, els teniu en el controlador principal.
 			 * 
-                 */
+			 */
 
-                break;
-            case 6: // Carregar contingut
-                /*
+			break;
+		case 6: // Carregar contingut
+			/*
 			 * - Es selecciona una companyia mitjançant el mètode seleccionarCompanyia
 			 * d'aquesta classe. - Si s'ha seleccionat la companyia, es mostra un JPane de
 			 * tipus showOptionDialog amb botons, on cadascun d'ells és un mètode de càrrega
@@ -317,9 +326,9 @@ public class ControladorCompanyia implements ActionListener {
 			 * 
 			 * NOTA: Recordeu que la instància d'un objecte del gestor de persistència, el
 			 * teniu en el controlador principal.
-                 */
+			 */
 
-                break;
-        }
-    }
+			break;
+		}
+	}
 }
