@@ -2,10 +2,14 @@ package persistencia;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 
+import model.Avio;
 import model.Companyia;
+import principal.Component;
 import principal.GestioVolsExcepcio;
 
 /**
@@ -26,7 +30,6 @@ public class GestorJDBC implements ProveedorPersistencia {
 	}
 
 	/*
-	 * TODO
 	 * 
 	 * Paràmetres: cap
 	 *
@@ -83,11 +86,34 @@ public class GestorJDBC implements ProveedorPersistencia {
 	 */
 	@Override
 	public void desarDades(String nomFitxer, Companyia companyia) throws GestioVolsExcepcio {
-		
+		try {
+			// Delete avio
+			Statement st = conn.createStatement();
+			st.execute("delete from avions where codiCompanyia =" + nomFitxer);
+			// Delete companyia
+			st = conn.createStatement();
+			st.execute("delete from companyies where codi =" + nomFitxer);
+			// Insert companyia
+			st = conn.createStatement();
+			st.executeUpdate(
+					"Insert into companyies(codi, nom) values ('" + nomFitxer + "', '" + companyia.getNom() + "')");
+			// Insert avio
+			for (Component a : companyia.getComponents()) {
+				if (a instanceof Avio) {
+					Avio avio = (Avio) a;
+					st = conn.createStatement();
+					st.executeUpdate("Insert into avions(codi, fabricant, model, capacitat, codiCompanyia) values ('"
+							+ avio.getCodi() + "', '" + avio.getFabricant() + "', '" + avio.getModel() + "', '"
+							+ String.valueOf(avio.getCapacitat()) + "', '" + nomFitxer + "')");
+				}
+			}
+
+		} catch (SQLException e) {
+			throw new GestioVolsExcepcio("GestorJDBC.desar");
+		}
 	}
 
 	/*
-	 * TODO
 	 * 
 	 * Paràmetres: el nom del fitxer de la companyia
 	 *
@@ -106,6 +132,27 @@ public class GestorJDBC implements ProveedorPersistencia {
 	 */
 	@Override
 	public Companyia carregarDades(String nomFitxer) throws ParseException, GestioVolsExcepcio {
+		try {
+			Statement st = conn.createStatement();
+			ResultSet resultat = st.executeQuery("select codi, nom from companyies where codi = " + nomFitxer);
+			Companyia companyia = new Companyia(resultat.getInt(0), resultat.getString(1));
+			resultat.close();
 
+			st = conn.createStatement();
+			resultat = st.executeQuery(
+					"select codi, fabricant, model, capacitat, codiCompanyia from avions where codiCompanyia = "
+							+ nomFitxer);
+			Avio avio = null;
+			while (resultat.next()) {
+				avio = new Avio(resultat.getString(0), resultat.getString(1), resultat.getString(2),
+						resultat.getInt(3));
+				companyia.afegirAvio(avio);
+			}
+			resultat.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

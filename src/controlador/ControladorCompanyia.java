@@ -304,7 +304,7 @@ public class ControladorCompanyia implements ActionListener {
 			 * persistència i tipus de persistències, els teniu en el controlador principal.
 			 * 
 			 */
-
+			
 			break;
 		case 6: // Carregar contingut
 			/*

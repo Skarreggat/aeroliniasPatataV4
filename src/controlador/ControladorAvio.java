@@ -205,7 +205,6 @@ public class ControladorAvio implements ActionListener {
 				case 2:
 					if (validarAvio()) {
 						// Get avió seleccionat i el modifica
-						// TODO Qué passa si modifico el codi? NullpointerException
 						Avio a = (Avio) ControladorPrincipal.getCompanyiaActual().getComponents()
 								.get(ControladorPrincipal.getCompanyiaActual().seleccionarComponent(1,
 										formAvio.getCodi().getText()));
